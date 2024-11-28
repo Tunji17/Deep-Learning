@@ -1,0 +1,76 @@
+#### Lexicon contain lambda functions
+#### Signatures declare types
+#### Lexicon take a signature and maps to another signature
+
+signature POS_Syntax =
+
+NPo, NPs, NP, S: type;
+ERIC, REBECCA: NP;
+LOVES: NPo -> NPs -> S;
+
+obj: NP -> NPo;
+subj: NP -> NPs;
+end
+
+signature Syntax =
+
+NP, S: type;
+ERIC, REBECCA: NP;
+LOVES: NP -> NP -> S; 
+
+end
+
+signature logic =
+
+e, t: type;
+eric, rebecca: e;
+love: e -> e -> t; 
+
+end
+
+lexicon semantics(POS_Syntax): logic = 
+
+NPo, NPs, NP := e;
+S := t;
+ERIC := eric;
+REBECCA := rebecca;
+
+LOVES := lambda x y.love x y;
+subj, obj := lambda x.x;
+
+end
+
+signature String = 
+
+o: type;
+string = o -> o: type;
+
+e = lambda x. x: string;
+infix [right] += lambda a b x. a (b x): string -> string -> string;
+
+Eric, Rebecca, loves: string;
+
+end
+
+lexicon syntax (POS_Syntax): String =
+
+NPo, NPs, NP, S := string;
+
+ERIC := Eric;
+REBECCA := Rebecca;
+LOVES := lambda x y. y + loves + x;
+
+subj, obj := lambda x.x;
+
+
+end
+
+
+
+
+
+
+################ CMDS ##############
+
+"Eric + loves + Rebecca: string" | parse syntax S | realize semantics
+
