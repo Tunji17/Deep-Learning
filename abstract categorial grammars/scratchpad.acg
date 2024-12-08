@@ -1,10 +1,13 @@
-#### Lexicon contain lambda functions
-#### Signatures declare types
-#### Lexicon take a signature and maps to another signature
+(* Lexicon contain lambda functions *)
+(* Signatures declare types *)
+(* Lexicon take a signature and maps to another signature *)
 
 signature POS_Syntax =
 
-NPo, NPs, NP, S: type;
+NPo, NPs, NP, V1, VP, S: type;
+s: NPs -> VP -> S;
+vp: V1 -> NPo -> VP;
+
 ERIC, REBECCA: NP;
 LOVES: NPo -> NPs -> S;
 
@@ -16,7 +19,7 @@ signature Syntax =
 
 NP, S: type;
 ERIC, REBECCA: NP;
-LOVES: NP -> NP -> S; 
+LOVES: NP -> NP -> S;
 
 end
 
@@ -32,15 +35,20 @@ lexicon semantics(POS_Syntax): logic =
 
 NPo, NPs, NP := e;
 S := t;
+VP := e -> t;
+V1 := e -> e -> t;
+s := lambda n v. v n;
+vp := lambda v o s. v s o;
+
 ERIC := eric;
 REBECCA := rebecca;
 
-LOVES := lambda x y.love x y;
+LOVES := lambda x y.love y x;
 subj, obj := lambda x.x;
 
 end
 
-signature String = 
+signature String =
 
 o: type;
 string = o -> o: type;
@@ -54,7 +62,10 @@ end
 
 lexicon syntax (POS_Syntax): String =
 
-NPo, NPs, NP, S := string;
+NPo, NPs, NP, V1, VP, S := string;
+
+s, vp := lambda x y. x + y;
+
 
 ERIC := Eric;
 REBECCA := Rebecca;
@@ -65,12 +76,6 @@ subj, obj := lambda x.x;
 
 end
 
-
-
-
-
-
-################ CMDS ##############
+(* CMDS *)
 
 "Eric + loves + Rebecca: string" | parse syntax S | realize semantics
-
