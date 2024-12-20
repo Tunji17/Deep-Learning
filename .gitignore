@@ -1,1 +1,10 @@
 .env
+reseaux_de_neurones/datasets/
+speech enhancement/lab1/data/
+reseaux_de_neurones/lab9/model_attention_large.pt
+asr/lab5/LJSpeech-1.1/
+asr/lab5/results/
+asr/lab5/speechbrain/
+asr/lab5/Submission*
+asr/lab5/tmpdir_*
+asr/lab5/example_*
